@@ -1,0 +1,47 @@
+name: Debiasing Text with Style Transfer CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    
+    - name: Upgrade pip
+      run: |
+        pip install --upgrade pip
+
+    - name: Install Poetry
+      run: |
+        pip install poetry
+      env:
+        POETRY_HOME: $HOME/.poetry
+        PATH: $HOME/.poetry/bin:$PATH
+
+    - name: Install project dependencies
+      run: |
+        poetry install
+      working-directory: ${{ github.workspace }}
+
+    - name: NLTK dependancies
+      run: |
+        poetry run python3 -m nltk.downloader stopwords
+
+    - name: Run tests
+      run: |
+        poetry run pytest -n 4 -v tests/
+      working-directory: ${{ github.workspace }}
