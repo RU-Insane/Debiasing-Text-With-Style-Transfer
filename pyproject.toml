@@ -9,8 +9,8 @@ description = "A debiasing package that uses style transfer to remove bias from 
 authors = ["Keshvi Gupta <keshvi2298@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-pandas = "^1.1.4"
+python = "^3.9.0"
+pandas = "*"
 scipy = "*"
 numpy = "*"
 jupyter = "^1.0.0"
