@@ -28,6 +28,8 @@ seaborn = "*"
 wordcloud = "*"
 plotly = "*"
 gensim = "*"
+transformers-interpret = "^0.10.0"
+sentence-transformers = "^2.2.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0"
