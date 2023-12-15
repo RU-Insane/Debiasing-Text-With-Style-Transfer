@@ -11,8 +11,8 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from transformers_interpret import SequenceClassificationExplainer
 
 
-# BERT model
-CLS_MODEL_PATH = "../../models/bert_finetuned"
+#BERT model
+CLS_MODEL_PATH = "../../../model/bert-finetuned"
 model_sc = AutoModelForSequenceClassification.from_pretrained(CLS_MODEL_PATH)
 tokenizer = AutoTokenizer.from_pretrained(CLS_MODEL_PATH)
 
