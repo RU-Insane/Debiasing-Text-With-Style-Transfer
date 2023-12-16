@@ -1,26 +1,8 @@
 from datasets import DatasetDict, Dataset, load_from_disk
 from typing import List, Dict
 import pandas as pd
-import numpy as np
 import os
-from sklearn.utils import shuffle
 from typing import Tuple, Dict
-
-
-def display_data(dataset_dict, num_rows=3):
-    """
-    Display the dataset dictionary and sample rows for each split.
-
-    Args:
-        dataset_dict (dict): A dictionary containing the dataset splits.
-        num_rows (int, optional): The number of sample rows to display. Defaults to 3.
-    """
-    for split in dataset_dict:
-        print(f"\n{split} dataset:")
-        print(dataset_dict[split])
-        print("\nSample rows:")
-        for i in range(num_rows):
-            print(dataset_dict[split][i])
 
 
 def load_data_to_dataset(data_folder: str) -> DatasetDict:
@@ -100,6 +82,28 @@ def remove_outliers(dataset: Dataset) -> Dataset:
     return Dataset.from_pandas(df), outliers
 
 
+def save_processed_data(dataset_dict: Dict[str, Dataset], target_path: str):
+    """
+    Save the processed data to disk.
+
+    Args:
+        dataset_dict (Dict[str, Dataset]): A dictionary containing the datasets for different splits.
+        target_path (str): The path where the processed data will be saved.
+
+    Returns:
+        None
+    """
+    # Keep only the necessary columns
+    for split in dataset_dict:
+        dataset_dict[split] = dataset_dict[split].remove_columns(
+            [col for col in dataset_dict[split].column_names if col not in ["id", "source", "target"]]
+        )
+
+    # Save the DatasetDict as Apache Arrow tables
+    os.makedirs(target_path, exist_ok=True)
+    dataset_dict.save_to_disk(target_path)
+
+
 def convert_to_classification_dataset(path: str) -> DatasetDict:
     """
     Converts a saved dataset into a classification dataset.
@@ -131,23 +135,17 @@ def convert_to_classification_dataset(path: str) -> DatasetDict:
     return DatasetDict(new_dataset_dict)
 
 
-def save_processed_data(dataset_dict: Dict[str, Dataset], target_path: str):
+def display_data(dataset_dict, num_rows=3):
     """
-    Save the processed data to disk.
+    Display the dataset dictionary and sample rows for each split.
 
     Args:
-        dataset_dict (Dict[str, Dataset]): A dictionary containing the datasets for different splits.
-        target_path (str): The path where the processed data will be saved.
-
-    Returns:
-        None
+        dataset_dict (dict): A dictionary containing the dataset splits.
+        num_rows (int, optional): The number of sample rows to display. Defaults to 3.
     """
-    # Keep only the necessary columns
     for split in dataset_dict:
-        dataset_dict[split] = dataset_dict[split].remove_columns(
-            [col for col in dataset_dict[split].column_names if col not in ["id", "source", "target"]]
-        )
-
-    # Save the DatasetDict as Apache Arrow tables
-    os.makedirs(target_path, exist_ok=True)
-    dataset_dict.save_to_disk(target_path)
+        print(f"\n{split} dataset:")
+        print(dataset_dict[split])
+        print("\nSample rows:")
+        for i in range(num_rows):
+            print(dataset_dict[split][i])
