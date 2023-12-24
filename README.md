@@ -28,7 +28,7 @@ The **Wiki Neutrality Corpus (WNC)**, comprising 181,473 aligned sentences pre- 
 
 ***
 
-## Model Architectures and Implementations:
+## Model Architectures and Implementations
 
   1. **LSTM-Based Baseline Model:**
 
@@ -49,13 +49,13 @@ The **Wiki Neutrality Corpus (WNC)**, comprising 181,473 aligned sentences pre- 
 
 ## Evaluation
 
-### Metrics:
+### Metrics
 Evaluation of text style transfer quality involves considering two key criteria: Style Strength (how well the generated text achieves the target style) and Content Preservation (the extent to which the generated text retains the semantic meaning of the source text).
 
-### Challenges with Traditional Metrics:
+### Challenges with Traditional Metrics
 Traditional metrics like BLUE score only count identical n-grams, leading to underestimation of performance as they may penalize semantically correct phrases differing in lexical form. Hence, reference-free evaluation methods align better with human judgments.
 
-### Evaluation Methods:
+### Evaluation Methods
 
   1. **Style Transfer Intensity (STI):**
 
@@ -67,7 +67,7 @@ Traditional metrics like BLUE score only count identical n-grams, leading to und
   - **Approach:** Dynamically calculated local, sentence-level feature importances using Integrated Gradients on a fine-tuned BERT subjectivity classifier.
   - **Methodology:** Determined style-independent versions of input and output sentences by removing stylistic elements, enabling accurate assessment of content preservation through embedding-based similarity.
 
-### Results:
+### Results
 Analysis of STI and CPS on the baseline model showed better style transfer than BART. However, despite higher STI, the baseline model produced irrelevant output, leading to poor Content Preservation (CPS). BART excelled in CPS, preserving most meaning in the original texts while ensuring credible style transfer.
 
 ***
